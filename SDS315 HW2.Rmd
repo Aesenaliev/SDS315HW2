@@ -41,20 +41,22 @@ The plot shows a mostly right skew feature, with a median score of `r median(pro
 ### Part B
 
 ```{r echo = FALSE}
-profsgg + geom_boxplot(aes(x = native, y = eval, fill = native)) +
+profsgg + geom_boxplot(aes(x = native, y = eval)) +
   xlab("Native") +
   ylab("Evaluation Score") +
   labs(title = "Evalutation Score if English is Native Language")
 
 table_native <- aggregate(eval ~ native, data = profs, median)
+native_speaker <- filter(profs, native == "yes")
+non_native_speaker <- filter(profs, native == "no")
 ```
 
-The plot above shows evaluation scores for professors based on if English was their native language. The median of non-native English speaker's evaluation score is `r table_native[1,2]`, and the median for native English speakers is `r table_native[2,2]`. From the box plot, as well as the medians, we can see that the evaluation score for non-native English speakers is lower than that of native English speakers. 
+The plot above shows evaluation scores for professors based on if English was their native language. The median of non-native English speaker's evaluation score is `r table_native[1,2]`, and the median for native English speakers is `r table_native[2,2]`. To add, the five number summary from the non native speakers (min, q1, median, q3, max, respectively) is as follows: `r fivenum(non_native_speaker$eval)`. The five number summary from the native speakers is `r fivenum(native_speaker$eval)`. From the box plot, as well as the medians, we can see that the evaluation score for non-native English speakers is lower than that of native English speakers. 
 
 ### Part C
 
 ```{r echo = FALSE}
-profsgg + geom_histogram(aes(x= eval, fill = gender), bins = 15) +
+profsgg + geom_histogram(aes(x= eval), bins = 15) +
   facet_wrap(~gender) +
   xlab("Evalutation Score") +
   ylab("Frequency") +
@@ -75,7 +77,7 @@ profsgg + geom_point(aes(x = beauty, y = eval)) +
   labs(title = "Professor's Physical Attractiveness and Evaluation Score")
 ```
 
-The scatter plot above shows the relationship between a professor's physical attractiveness score and their evaluation score. From the scatter plot, the correlation between the 2 variables is `r cor(profs$beauty, profs$eval)`, which shows a negligible correlation between physical attractiveness and evaluation score. A key takeaway from this plot is that physical attractiveness does not influence evaluation score. 
+The scatter plot above shows the relationship between a professor's physical attractiveness score and their evaluation score. From the scatter plot, the correlation between the 2 variables is `r round(cor(profs$beauty, profs$eval), 3)`, which shows a negligible correlation between physical attractiveness and evaluation score. A key takeaway from this plot is that physical attractiveness does not influence evaluation score. 
 
 ## Problem 2
 
